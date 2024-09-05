@@ -12,14 +12,14 @@ public class Main
     {
         // Prompt user to enter file path for board data
         Scanner scnr = new Scanner(System.in);
-        boolean readData;
-        string filePath, executeOption;
+        boolean readData = true;
+        String filePath, executeOption;
         do
         {   
             System.out.print("Enter the board data file path");
-            filePath = scanner.nextLine();
+            filePath = scnr.nextLine();
             System.out.print("Type \"Start\" to start the game or \"Exit\" to exit the game: " );
-            executeOption = scanner.nextLine();
+            executeOption = scnr.nextLine();
 
         }
         while(!readData);
