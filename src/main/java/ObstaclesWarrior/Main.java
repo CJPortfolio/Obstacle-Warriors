@@ -1,5 +1,7 @@
 package ObstaclesWarrior;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -10,41 +12,86 @@ public class Main
 {
     public static void main( String[] args )
     {
-        // Prompt user to enter file path for board data
-        Scanner scnr = new Scanner(System.in);
-        boolean readData = true;
         String filePath, executeOption;
+        Position startPosition = new Position(-1, -1);
+        Position exitPosition  = new Position(-2, -2);
+
+
+        filePath = GetValidFilePath();
+        ReadBoardFromFile(filePath, startPosition, exitPosition);
+
+
+
+
+
+        // System.out.println("Type \"Start\" to start the game or \"Exit\" to exit the game: " );
+        // executeOption = scnr.nextLine();
+
+    
+    }
+
+    public static String GetValidFilePath() 
+    {
+        Scanner scnr = new Scanner(System.in);
+        FileInputStream fileInputStream = null;
+        boolean validFilePath = false;
+        String filePath;
         do
         {   
-            System.out.print("Enter the board data file path");
+            System.out.println("Enter the board data file path");
             filePath = scnr.nextLine();
-            System.out.print("Type \"Start\" to start the game or \"Exit\" to exit the game: " );
-            executeOption = scnr.nextLine();
 
+            try {
+                // Open the input file
+                fileInputStream = new FileInputStream(filePath);
+            } catch (FileNotFoundException ex) {
+                validFilePath = false;
+            }
         }
-        while(!readData);
+        while(!validFilePath);
+
+        scnr.close();
+        
+        return filePath;
+    }
+
+    // Takes in a string in the format "x y" and returns a position object with x y coordinates 
+    public static Position PositionFromString(String str) 
+    {   
+        Scanner scanner = new Scanner(str);
+        int x = scanner.nextInt();
+        int y = scanner.nextInt();
+        return new Position(x, y);
     }
     
     public static String[][] ReadBoardFromFile(String fileName, 
                                                Position startPosition, 
                                                Position exitPosition)
     {
-        //Assume that the data below is read from a file with your actual implementation.
-        //You don't need to write anything in your methods here to be able to write your
-        //unit test methods.This code is added just to enable you to run the provided unit test. 
+        String[][] gameBoard = null; 
+        Scanner fileScanner = null;
+        String fileLineString;
 
-        String[][] gameBoard =  {
-                                    {"0", "#", "#", "#"},
-                                    {"#", "-3", "#", "-5"},
-                                    {"#", "#", "#", "#"},
-                                    {"#", "#", "-1", "#"},
-                                }; 
+        //Handle the exception just in case for some reason the valid fileName fails to open
+        try (FileInputStream fileInputStream = new FileInputStream(fileName)) {
+            fileScanner = new Scanner(fileInputStream);
+        } catch (Exception e) {
+            //Assume that the fileName passed to this function is valid and this will never fail
+            System.out.println("There was a problem opening the file for some reason");
+        }
+        
+        //Get the board dimensions from the file and create the gameboard array
+        Position dims = PositionFromString(fileScanner.nextLine());
+        gameBoard = new String[dims.getX()][dims.getY()];
 
+        //Get the start and exit positions from the file
+        startPosition = PositionFromString(fileScanner.nextLine());
+        exitPosition  = PositionFromString(fileScanner.nextLine());
 
-        startPosition.setX(0);
-        startPosition.setY(2);
-        exitPosition.setX(2);
-        exitPosition.setY(2);
+        //TODO Read the rest of the board from the file into the gameBoard array
+        while (fileScanner.hasNext()) {
+            fileLineString = fileScanner.nextLine();
+        }
 
         return gameBoard;
     } 
