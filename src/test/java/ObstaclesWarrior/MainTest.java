@@ -82,7 +82,7 @@ public class MainTest {
 
         String filePath = "C:\\temp\\resultboard.dat";
 
-        /*;
+        /*
         3 3
         2 1
         1 1

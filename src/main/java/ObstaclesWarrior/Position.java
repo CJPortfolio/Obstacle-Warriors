@@ -1,3 +1,6 @@
+// Name: Christopher Wiratman
+// Net ID: cjw220005
+
 package ObstaclesWarrior;
 
 /**

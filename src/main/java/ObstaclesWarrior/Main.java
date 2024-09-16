@@ -1,26 +1,28 @@
 // Name: Christopher Wiratman
 // Net ID: cjw220005
 
+
+
 package ObstaclesWarrior;
 
-import java.io.File;
 import java.util.Scanner;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 /**
  * ObstaclesWarrior
  *
  */
 public class Main 
 {
-    public static void main( String[] args )
+    public static void main( String[] args)
     {
+
+
         String filePath, systemOption;
-        Position startPosition = new Position(-1, -1);
-        Position exitPosition  = new Position(-2, -2);
+        Position startPosition = new Position(0,0);
+        Position exitPosition  = new Position(0,0);
         
         // Prompt user for Board.dat file path;
-
-
 
 
         Scanner scnr = new Scanner(System.in);
@@ -44,7 +46,7 @@ public class Main
         }
         while(!file.exists());
 
-        ReadBoardFromFile(filePath, startPosition, exitPosition);
+        String [][] gameBoard = ReadBoardFromFile(filePath, startPosition, exitPosition);
         
 
         while (true) {
@@ -56,32 +58,41 @@ public class Main
             {
                 break;
             }
-            else if (systemOption.equals("Exit"));
+            else if (systemOption.equals("Exit"))
             {
                 System.exit(0);
             }
 
             System.out.println("Invalid Choice");
         }
-        /*do
+
+        boolean Start = false;
+
+        do
         {
-        System.out.println("Enter the board file path: ");
-        filePath = scnr.next();
-        System.out.print("Type \"Start\" to start the game or \"Exit\" to exit the game: ");
-        systemOption = scnr.next();
-        if(systemOption.equals("Start"))
-        {
+            System.out.println("Enter the board file path: ");
+            filePath = scnr.next();
+            System.out.print("Type \"Start\" to start the game or \"Exit\" to exit the game: ");
+            systemOption = scnr.next();
+
+                
+            if(systemOption.equals("Start"))
+            {
+                Start = true;
+            }
+            else if (systemOption.equals("Exit"))
+            {
+                System.exit(0);
+            }
+            else
+            {
+                System.err.println("Input Error");
+            }
         }
-        else if (systemOption.equals("Exit"))
-        {
-        System.exit(0);
-        }
-        else
-        {
-        System.err.println("Input Error");
-        }
-        }
-        while()
+
+        while(Start == false);
+        
+
         File boardFile = new File(filePath);
         try
         {
@@ -96,9 +107,11 @@ public class Main
         }
         // System.out.println("Type \"Start\" to start the game or \"Exit\" to exit the game: " );
         // executeOption = scnr.nextLine();
-        */
+        
 
         scnr.close();
+
+        
     }
 
     
@@ -110,20 +123,25 @@ public class Main
         //You don't need to write anything in your methods here to be able to write your
         //unit test methods.This code is added just to enable you to run the provided unit test. 
 
+        /*
+
         String[][] gameBoard =  {
             {"0", "#", "#", "#"},
             {"#", "-3", "#", "-5"},
-            {"#", "#", "#", "#"},
+            {"#", "#", "#", "a#"},
             {"#", "#", "-1", "#"},
-        }; 
+        };
+        */
 
         
-        startPosition.setX(0);
-        startPosition.setY(2);
-        exitPosition.setX(2);
-        exitPosition.setY(2);
+        //startPosition.setX(0);
+        //startPosition.setY(2);
+        //exitPosition.setX(2);
+        //exitPosition.setY(2);
         
-        /* 
+
+
+         
         int rows, columns;
         
         File boardFile = new File(fileName);
@@ -172,9 +190,10 @@ public class Main
         boardScanner.close();
 
         
-        */
+        
         return gameBoard;
     } 
+     
     
     public static boolean WriteBoardToFile(String fileName, 
                                            String[][] boardArray)
@@ -185,7 +204,7 @@ public class Main
     
     public static int GenerateDirection()
     {
-        //return a random number from 1-7 (inclusive)
+        
         return 3;
     } 
     
@@ -234,7 +253,7 @@ public class Main
         //Check if the new position is on a 0, if so return to start position and replace the 0 with a #
         if(boardArray[newPosition.getY()][newPosition.getX()].equals("0")) {
             boardArray[newPosition.getY()][newPosition.getX()] = "#";
-            newPosition = new Position(3, 0); //TODO
+            newPosition = new Position(3, 0);
         }
 
         return newPosition;
@@ -251,7 +270,7 @@ public class Main
 
         
 
-        /* 
+        
         int healthModifier = 1;
         String currentSpotStr = boardArray[currentPosition.getY()][currentPosition.getX()];
         boolean spotWasAnObstacle = false;
@@ -259,7 +278,6 @@ public class Main
         try (Scanner scnr = new Scanner(currentSpotStr))
         {
             healthModifier = scnr.nextInt();
-            scnr.close();
         } catch (Exception e) {
             // The thing at the current board position was not an integer
             spotWasAnObstacle = true;
@@ -271,9 +289,7 @@ public class Main
         }
 
         return currentScore + healthModifier;
-        */
-
-        return calculatedScore;
+        
     } 
     
     public static void DisplayResults(int currentScore, 
@@ -284,8 +300,9 @@ public class Main
         ("The warrior made " + numberOfMoves + " valid moves in " + timeElapsed + 
         " milliseconds. The final score is " + currentScore + " points.\n");
 
-        
-        
-
     }  
+
+
+
+    
 }
